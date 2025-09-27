@@ -2,81 +2,85 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Daily Work Report</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
-      margin: 40px;
-      background-color: #f9f9f9;
-    }
-    h2 {
-      color: #333;
-    }
-    form {
-      background: #fff;
+      margin: 0;
       padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px #ccc;
-      max-width: 600px;
+      background-color: #f1f5f9;
     }
+
+    h2 {
+      text-align: center;
+      color: #003366;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
     label {
       display: block;
-      margin-top: 10px;
+      margin-top: 15px;
       font-weight: bold;
     }
+
     input, select, textarea {
       width: 100%;
-      padding: 8px;
+      padding: 10px;
       margin-top: 5px;
-      border-radius: 4px;
+      border-radius: 5px;
       border: 1px solid #ccc;
+      font-size: 15px;
     }
-    input[type="submit"] {
-      background-color: #4CAF50;
+
+    textarea {
+      resize: vertical;
+    }
+
+    input[type="submit"],
+    .view-button {
+      background-color: #007BFF;
       color: white;
       border: none;
+      padding: 12px 20px;
       margin-top: 20px;
+      font-size: 16px;
       cursor: pointer;
+      border-radius: 5px;
+      transition: all 0.3s ease;
     }
-    input[type="submit"]:hover {
-      background-color: #45a049;
+
+    input[type="submit"]:hover,
+    .view-button:hover {
+      background-color: #0056b3;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-  .view-button {
-    background-color: #007BFF;
-    color: #fff;
-    font-size: 10px;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    margin-top: 20px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
 
-  .view-button:hover {
-    background-color: #0056b3;
-    transform: translateY(-1px);
-  }
-
-  .view-button:active {
-    background-color: #004494;
-    transform: translateY(0);
-  }
-
-
+    @media (min-width: 600px) {
+      .button-group {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
   </style>
 
   <script>
@@ -90,7 +94,6 @@
         Client: formData.get("client"),
         Category: formData.get("category"),
         Status: formData.get("status"),
-        
         Remarks: formData.get("remarks")
       };
 
@@ -110,58 +113,52 @@
 </head>
 <body>
 
-  <h2>Daily Work Report</h2>
+  <h2>Rayna Tours - Saurav's Daily Work Report</h2>
 
-  <form id="workForm" onsubmit="event.preventDefault(); submitForm();">
-    <label for="date">Date:</label>
-    <input type="date" name="date" required />
+  <div class="container">
+    <form id="workForm" onsubmit="event.preventDefault(); submitForm();">
 
-    <label for="task">Task Description:</label>
-    <input type="text" name="task" required />
+      <label for="date">Date:</label>
+      <input type="date" name="date" required />
 
-    <label for="client">Client Name (if any):</label>
-    <input type="text" name="client" />
+      <label for="task">Task Description:</label>
+      <input type="text" name="task" placeholder="E.g. Replied to API client" required />
 
-    <label for="category">Category:</label>
-    <select name="category" required>
-      <option value="">-- Select Category --</option>
-      <option>Email</option>
-      <option>API</option>
-      <option>Credited</option>
-      <option>Call</option>
-      <option>Meetings</option>
-      <option>Follow Up</option>
-      <option>Other</option>
-    </select>
+      <label for="client">Client Name (if any):</label>
+      <input type="text" name="client" placeholder="E.g. TravelZone" />
 
-    <label for="status">Status:</label>
-    <select name="status" required>
-      <option value="">-- Select Status --</option>
-      <option>Completed</option>
-      <option>In Progress</option>
-      <option>Pending</option>
-    </select>
+      <label for="category">Category:</label>
+      <select name="category" required>
+        <option value="">-- Select Category --</option>
+        <option>Email</option>
+        <option>API</option>
+        <option>Credited</option>
+        <option>Call</option>
+        <option>Meetings</option>
+        <option>Follow Up</option>
+        <option>Other</option>
+      </select>
 
-    
+      <label for="status">Status:</label>
+      <select name="status" required>
+        <option value="">-- Select Status --</option>
+        <option>Completed</option>
+        <option>In Progress</option>
+        <option>Pending</option>
+      </select>
 
-    <label for="remarks">Remarks/Notes:</label>
-    <textarea name="remarks" rows="4" cols="50"></textarea>
+      <label for="remarks">Remarks/Notes:</label>
+      <textarea name="remarks" rows="4" placeholder="Additional details or follow-ups"></textarea>
 
-    <input type="submit" value="Submit Report" />
+      <div class="button-group">
+        <input type="submit" value="Submit Report" />
+        <button type="button" class="view-button" onclick="window.open('https://docs.google.com/spreadsheets/d/1THqJFeZby9fvE5BTOcG95SsenLS-7H4q2YM_qYj25E8/edit?gid=0', '_blank')">
+          📄 View Submitted Reports
+        </button>
+      </div>
 
-<button type="button" onclick="window.open('https://docs.google.com/spreadsheets/d/1THqJFeZby9fvE5BTOcG95SsenLS-7H4q2YM_qYj25E8/edit?gid=0#gid=0', '_blank')">
-  📄 View Submitted Reports
-</button>
-
-
-  </form>
+    </form>
+  </div>
 
 </body>
 </html>
-
-
-
-
-
-
-
