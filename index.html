@@ -87,7 +87,7 @@
 
 
   // Fetch and display last 5 logs
-  fetch("YOUR_WEB_APP_URL")
+  fetch("https://script.google.com/macros/s/AKfycbxYySIwbJGf-3RwghgvmYvf4RBzs14Tu5GYDJ-L7ybbQqdo1X1DyZvieu8IYSL6zIo5YA/exec")
     .then(response => response.json())
     .then(data => {
       const container = document.getElementById("recentLogs");
@@ -139,7 +139,7 @@
         Remarks: formData.get("remarks")
       };
 
-      fetch("https://script.google.com/macros/s/AKfycbyVrlcAjbwHVp2CbguxM-KX0iJGW-SeMqIOTbO3RTSVCvOyVY0y_OzG1xEA8UqV6ha1Gw/exec", {
+      fetch("https://script.google.com/macros/s/AKfycbxYySIwbJGf-3RwghgvmYvf4RBzs14Tu5GYDJ-L7ybbQqdo1X1DyZvieu8IYSL6zIo5YA/exec", {
         method: "POST",
         mode: "no-cors",
         headers: {
@@ -214,5 +214,6 @@
 
 </body>
 </html>
+
 
 
