@@ -84,6 +84,48 @@
   </style>
 
   <script>
+
+
+  // Fetch and display last 5 logs
+  fetch("YOUR_WEB_APP_URL")
+    .then(response => response.json())
+    .then(data => {
+      const container = document.getElementById("recentLogs");
+      container.innerHTML = ""; // Clear existing
+
+      if (data.length === 0) {
+        container.innerHTML = "<p>No logs found.</p>";
+        return;
+      }
+
+      data.reverse().forEach((entry, index) => {
+        const div = document.createElement("div");
+        div.style.borderBottom = "1px solid #eee";
+        div.style.padding = "10px 0";
+        div.innerHTML = `
+          <strong>Date:</strong> ${entry.Date || ''}<br>
+          <strong>Task:</strong> ${entry.Task || ''}<br>
+          <strong>Client:</strong> ${entry.Client || ''}<br>
+          <strong>Category:</strong> ${entry.Category || ''}<br>
+          <strong>Status:</strong> ${entry.Status || ''}<br>
+          <strong>Remarks:</strong> ${entry.Remarks || ''}<br>
+        `;
+        container.appendChild(div);
+      });
+    })
+    .catch(error => {
+      document.getElementById("recentLogs").innerHTML = "Error loading logs.";
+      console.error(error);
+    });
+
+
+
+
+
+
+
+
+    
     function submitForm() {
       const form = document.getElementById("workForm");
       const formData = new FormData(form);
@@ -158,7 +200,18 @@
       </div>
 
     </form>
+
+<h3 style="margin-top: 40px;">🕒 Last 5 Submitted Reports</h3>
+<div id="recentLogs" style="background:#fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+  <p>Loading recent logs...</p>
+</div>
+
+
+
+
+    
   </div>
 
 </body>
 </html>
+
