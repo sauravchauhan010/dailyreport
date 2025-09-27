@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Daily Work Report</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f9f9f9;
+    }
+    h2 {
+      color: #333;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #ccc;
+      max-width: 600px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      margin-top: 20px;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #45a049;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+  .view-button {
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 10px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .view-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-1px);
+  }
+
+  .view-button:active {
+    background-color: #004494;
+    transform: translateY(0);
+  }
+
+
+  </style>
+
+  <script>
+    function submitForm() {
+      const form = document.getElementById("workForm");
+      const formData = new FormData(form);
+
+      const data = {
+        Date: formData.get("date"),
+        Task: formData.get("task"),
+        Client: formData.get("client"),
+        Category: formData.get("category"),
+        Status: formData.get("status"),
+        TimeSpent: formData.get("time"),
+        Remarks: formData.get("remarks")
+      };
+
+      fetch("https://script.google.com/macros/s/YOUR_GOOGLE_SCRIPT_ID/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      });
+
+      alert("Submitted successfully!");
+      form.reset();
+    }
+  </script>
+</head>
+<body>
+
+  <h2>Daily Work Report</h2>
+
+  <form id="workForm" onsubmit="event.preventDefault(); submitForm();">
+    <label for="date">Date:</label>
+    <input type="date" name="date" required />
+
+    <label for="task">Task Description:</label>
+    <input type="text" name="task" required />
+
+    <label for="client">Client Name (if any):</label>
+    <input type="text" name="client" />
+
+    <label for="category">Category:</label>
+    <select name="category" required>
+      <option value="">-- Select Category --</option>
+      <option>Email</option>
+      <option>Call</option>
+      <option>Meetings</option>
+      <option>Follow Up</option>
+      <option>Other</option>
+    </select>
+
+    <label for="status">Status:</label>
+    <select name="status" required>
+      <option value="">-- Select Status --</option>
+      <option>Completed</option>
+      <option>In Progress</option>
+      <option>Pending</option>
+    </select>
+
+    <label for="time">Time Spent (HH:MM):</label>
+    <input type="text" name="time" required />
+
+    <label for="remarks">Remarks/Notes:</label>
+    <textarea name="remarks" rows="4" cols="50"></textarea>
+
+    <input type="submit" value="Submit Report" />
+    <button type="button" onclick="https://docs.google.com/spreadsheets/d/1THqJFeZby9fvE5BTOcG95SsenLS-7H4q2YM_qYj25E8/edit?gid=0#gid=0')">
+  View Submitted Reports
+</button>
+
+  </form>
+
+</body>
+</html>
