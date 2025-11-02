@@ -57,14 +57,11 @@
             }
 
 
-
-
 	/* !!! CRITICAL FIX: Remove max height and scroll for printing !!! */
         #report-content {
             max-height: none !important; 
             overflow-y: visible !important;
         }
-
 
 
             /* Ensure the content container is clean */
@@ -89,21 +86,6 @@
     </style>
     
     <script>
-
-// Add this block near the very top of the <script> in index.html
-if (window.location.search.includes('logout=success')) {
-    // If we just logged out, ignore the session check for a moment
-    // and clear the URL parameter to prevent potential loops.
-    history.replaceState(null, null, window.location.pathname);
-} else if (localStorage.getItem('some_auth_key')) {
-    // Only redirect if we haven't just logged out
-    window.location.href = "abc.html";
-}
-
-
-
-
-		
         // --- GLOBAL STATE & LOCAL STORAGE LOGIC ---
         
         const STORAGE_KEY = 'localDailyReports';
@@ -118,7 +100,7 @@ if (window.location.search.includes('logout=success')) {
         const USER_NAME = "SAURAV CHAUHAN";
 
         // UPDATED: Added "CRM" to the list of task sources
-        const taskSources = ["Outlook", "WhatsApp", "CDesk", "CRM", "Google Meeting", "R-points", "Phone Call", "Internal Project","CRM", "Teams", "Authorization","Other"];
+        const taskSources = ["Outlook", "WhatsApp", "CDesk", "CRM", "Google Meeting", "R-points", "Phone Call", "Internal Project","Teams", "Authorization","Other"];
 
         /**
          * Loads all reports from localStorage into the global allReports object.
@@ -147,17 +129,16 @@ if (window.location.search.includes('logout=success')) {
 
         /**
          * Function to handle user logout.
-         * Clears local storage and redirects to index.html.
-         * * FIX: Clearing localStorage.clear() is critical to break the redirect loop
-         * that occurs if index.html is checking for *any* saved session data.
+         * Clears local storage and redirects to index.html with a logout flag.
+         * * CRITICAL FIX: The flag (?logout=true) tells index.html to SKIP the 
+         * automatic login redirect, which breaks the loop.
          */
         function handleLogout() {
-            // CRITICAL FIX: Clear ALL local storage to ensure any session/auth
-            // data is removed, preventing index.html from redirecting back.
+            // 1. Ensure all session data is cleared.
             localStorage.clear(); 
             
-            // Redirect the user
-            window.location.href = "https://mydailyreports.netlify.app";
+            // 2. Redirect to the index/login page with the critical flag.
+            window.location.href = "index.html?logout=true";
         }
 
 
@@ -839,6 +820,3 @@ if (window.location.search.includes('logout=success')) {
     </div>
 </body>
 </html>
-
-
-
