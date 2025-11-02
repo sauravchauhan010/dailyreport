@@ -128,7 +128,15 @@
             // If not logged in, focus on the password field
             passwordInput.focus();
         };
-
+// Add this block near the very top of the <script> in index.html
+if (window.location.search.includes('logout=success')) {
+    // If we just logged out, ignore the session check for a moment
+    // and clear the URL parameter to prevent potential loops.
+    history.replaceState(null, null, window.location.pathname);
+} else if (localStorage.getItem('some_auth_key')) {
+    // Only redirect if we haven't just logged out
+    window.location.href = "my daily report.html";
+}
     </script>
 </body>
 </html>
