@@ -133,10 +133,13 @@
         /**
          * Function to handle user logout.
          * Clears local storage and redirects to index.html.
+         * * FIX: Clearing localStorage.clear() is critical to break the redirect loop
+         * that occurs if index.html is checking for *any* saved session data.
          */
         function handleLogout() {
-            // Optional: Clear any session data if stored in localStorage
-            // localStorage.clear(); // Use if you want to clear ALL data
+            // CRITICAL FIX: Clear ALL local storage to ensure any session/auth
+            // data is removed, preventing index.html from redirecting back.
+            localStorage.clear(); 
             
             // Redirect the user
             window.location.href = "index.html";
