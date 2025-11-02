@@ -89,6 +89,21 @@
     </style>
     
     <script>
+
+// Add this block near the very top of the <script> in index.html
+if (window.location.search.includes('logout=success')) {
+    // If we just logged out, ignore the session check for a moment
+    // and clear the URL parameter to prevent potential loops.
+    history.replaceState(null, null, window.location.pathname);
+} else if (localStorage.getItem('some_auth_key')) {
+    // Only redirect if we haven't just logged out
+    window.location.href = "my daily report.html";
+}
+
+
+
+
+		
         // --- GLOBAL STATE & LOCAL STORAGE LOGIC ---
         
         const STORAGE_KEY = 'localDailyReports';
@@ -824,4 +839,5 @@
     </div>
 </body>
 </html>
+
 
