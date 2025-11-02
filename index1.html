@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Access</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font and basic setup */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- Login Card -->
+    <div id="login-card" class="bg-white p-8 md:p-10 rounded-xl shadow-2xl w-full max-w-sm transform transition duration-500 hover:shadow-3xl">
+        <div class="text-center mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-indigo-600 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            <h1 class="text-3xl font-extrabold text-gray-900 mt-3">SAURAV's Daily Report</h1>
+            <p class="text-sm text-gray-500 mt-1">Enter the password to continue.</p>
+        </div>
+
+        <form id="login-form" onsubmit="handleLogin(event)" class="space-y-6">
+            <div>
+                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    required
+                    placeholder="••••••••"
+                    class="appearance-none block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+                >
+            </div>
+
+            <button
+                type="submit"
+                class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-lg font-semibold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out transform hover:scale-[1.01]"
+            >
+                Unlock Content
+            </button>
+        </form>
+
+        <!-- Message Box for Feedback -->
+        <div id="message-box" class="mt-6 p-3 text-sm rounded-lg text-center hidden" role="alert">
+            <!-- Messages (success or error) will appear here -->
+        </div>
+
+    </div>
+
+    <script>
+        // CRITICAL SECURITY NOTE:
+        // This is a client-side security measure and should NOT be used for truly sensitive data.
+        // The password is visible in the source code. For real security, use Netlify's built-in
+        // Password Protection feature (using their _redirects file) or a server-side solution.
+
+        // --- Configuration ---
+        const SECRET_PASSWORD = "12123"; // <<< CHANGE THIS PASSWORD!
+        const PROTECTED_FILE_URL = "abc.html";       // <<< This is the file you want to access
+
+        const passwordInput = document.getElementById('password');
+        const messageBox = document.getElementById('message-box');
+        const loginCard = document.getElementById('login-card');
+
+        /**
+         * Converts the provided text and type into a styled message box.
+         * @param {string} message - The text to display.
+         * @param {string} type - 'success' or 'error'.
+         */
+        function showMessage(message, type) {
+            messageBox.textContent = message;
+            messageBox.classList.remove('hidden', 'bg-red-100', 'text-red-800', 'bg-green-100', 'text-green-800');
+
+            if (type === 'error') {
+                messageBox.classList.add('bg-red-100', 'text-red-800');
+            } else if (type === 'success') {
+                messageBox.classList.add('bg-green-100', 'text-green-800');
+            }
+        }
+
+        /**
+         * Handles the form submission and password validation.
+         * @param {Event} event - The form submission event.
+         */
+        function handleLogin(event) {
+            event.preventDefault(); // Stop the default form submission
+            const enteredPassword = passwordInput.value.trim();
+
+            if (enteredPassword === SECRET_PASSWORD) {
+                // Success: Show success message and redirect
+                showMessage("Success! Redirecting to the content...", 'success');
+
+                // Optional: Store a temporary 'logged in' marker in session storage
+                // so the user doesn't have to re-login immediately.
+                sessionStorage.setItem('isLoggedIn', 'true');
+
+                // Wait a moment before redirecting for better UX
+                setTimeout(() => {
+                    window.location.href = PROTECTED_FILE_URL;
+                }, 1000);
+
+                // Disable the form during redirection
+                passwordInput.disabled = true;
+
+            } else {
+                // Error: Show error message
+                showMessage("Error: Incorrect password. Please try again.", 'error');
+                passwordInput.value = ''; // Clear the input
+                passwordInput.focus();
+            }
+        }
+
+        /**
+         * Optional: Check if the user has already successfully logged in during this session.
+         * This prevents redundant login requests if they just navigated back.
+         */
+        window.onload = function() {
+            if (sessionStorage.getItem('isLoggedIn') === 'true') {
+                // User has a valid session marker, redirect them immediately.
+                window.location.href = PROTECTED_FILE_URL;
+            }
+            // If not logged in, focus on the password field
+            passwordInput.focus();
+        };
+
+    </script>
+</body>
+</html>
